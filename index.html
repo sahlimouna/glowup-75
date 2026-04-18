@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="manifest.json">
+    <link rel="sw" href="sw.js">
+     <meta name="theme-color" content="#7dd3fc">
+     <!-- وسوم خاصة بـ Apple لجعل الموقع يظهر كتطبيق -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+     <meta name="apple-mobile-web-app-status-bar-style" content="default">
+     <meta name="apple-mobile-web-app-title" content="GlowUp75">
+
+<!-- أيقونة التطبيق لـ iPhone (يجب أن تكون بحجم 180x180) -->
+<link rel="apple-touch-icon" href="icon.png">
+    <title>glow up 75</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #f0faff; /* لون سماوي باهت جداً للخلفية */
+            color: #334e68;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(186, 230, 253, 0.5);
+            border-radius: 20px;
+        }
+        .sky-gradient {
+            background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+        }
+        .nav-btn {
+            transition: all 0.3s ease;
+        }
+        .nav-btn.active {
+            background-color: #7dd3fc;
+            color: white;
+            transform: scale(1.05);
+        }
+        .checkbox-custom {
+            width: 20px;
+            height: 20px;
+            border-radius: 5px;
+            border: 2px solid #7dd3fc;
+            cursor: pointer;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .checkbox-custom.checked {
+            background-color: #7dd3fc;
+            position: relative;
+        }
+        .checkbox-custom.checked::after {
+            content: '✓';
+            color: white;
+            position: absolute;
+            top: -2px;
+            right: 2px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body class="min-h-screen pb-20">
+
+    <!-- Header -->
+    <header class="p-6 text-center">
+        <h1 class="text-3xl font-bold text-sky-600 mb-2">مساحتي الخاصة</h1>
+        <p class="text-sky-400 italic">"كل يوم هو بداية لقصة جمال جديدة"</p>
+    </header>
+
+    <!-- Content Container -->
+    <main id="app-container" class="max-w-4xl mx-auto px-4">
+        
+        <!-- Navigation Menu -->
+        <nav class="flex justify-around mb-8 p-2 glass-card overflow-x-auto gap-2">
+            <button onclick="showPage('dashboard')" id="nav-dashboard" class="nav-btn active px-4 py-2 rounded-xl text-sm md:text-base whitespace-nowrap">الرئيسية</button>
+            <button onclick="showPage('challenge')" id="nav-challenge" class="nav-btn px-4 py-2 rounded-xl text-sm md:text-base whitespace-nowrap">تحدي 75 Hard</button>
+            <button onclick="showPage('skincare')" id="nav-skincare" class="nav-btn px-4 py-2 rounded-xl text-sm md:text-base whitespace-nowrap">العناية والجمال</button>
+            <button onclick="showPage('daily')" id="nav-daily" class="nav-btn px-4 py-2 rounded-xl text-sm md:text-base whitespace-nowrap">التنظيم اليومي</button>
+        </nav>
+
+        <!-- PAGE 1: Dashboard (Self Development) -->
+        <div id="page-dashboard" class="page-content space-y-6">
+            <div class="sky-gradient p-6 rounded-3xl shadow-sm text-center">
+                <h2 class="text-xl font-bold text-sky-700 mb-2">عبارة اليوم التحفيزية</h2>
+                <p id="motivational-quote" class="text-sky-800 text-lg">"الاستمرار هو السر، والجمال يكمن في التفاصيل."</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="glass-card p-6">
+                    <h3 class="text-lg font-bold text-sky-600 mb-4 flex items-center gap-2">
+                        <span>✨</span> أهداف الأسبوع
+                    </h3>
+                    <ul class="space-y-3" id="weekly-goals">
+                        <li class="flex items-center gap-2 border-b border-sky-100 pb-2">
+                            <span class="checkbox-custom" onclick="toggleCheck(this)"></span>
+                            <span class="text-gray-600">الالتزام بنظام غذائي متوازن</span>
+                        </li>
+                        <li class="flex items-center gap-2 border-b border-sky-100 pb-2">
+                            <span class="checkbox-custom" onclick="toggleCheck(this)"></span>
+                            <span class="text-gray-600">قراءة 50 صفحة من كتاب تطوير الذات</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="glass-card p-6">
+                    <h3 class="text-lg font-bold text-sky-600 mb-4 flex items-center gap-2">
+                        <span>🤍</span> مساحة الامتنان
+                    </h3>
+                    <textarea class="w-full bg-transparent border-2 border-sky-100 rounded-xl p-3 focus:border-sky-300 outline-none text-gray-600 h-32" placeholder="ما هي الأشياء الثلاثة التي تمتنين لها اليوم؟"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 2: 75 Hard Challenge -->
+        <div id="page-challenge" class="page-content hidden space-y-6">
+            <div class="glass-card p-6 text-center border-2 border-sky-200">
+                <h2 class="text-2xl font-bold text-sky-700 mb-1">تحدي 75 Hard</h2>
+                <p class="text-sky-400 text-sm mb-4">قوة، انضباط، وتغيير جذري</p>
+                <div class="flex justify-center items-center gap-4 mb-4">
+                    <div class="w-24 h-24 rounded-full border-4 border-sky-300 flex items-center justify-center">
+                        <span class="text-2xl font-bold text-sky-600">يوم 1</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="glass-card p-4 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="bg-blue-100 p-2 rounded-lg">🏋️‍♀️</div>
+                        <div>
+                            <p class="font-bold">الرياضة 1 (صباحاً)</p>
+                            <p class="text-xs text-gray-400">45 دقيقة - في الخارج إن أمكن</p>
+                        </div>
+                    </div>
+                    <span class="checkbox-custom" onclick="toggleCheck(this)"></span>
+                </div>
+                <div class="glass-card p-4 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="bg-blue-100 p-2 rounded-lg">🌙</div>
+                        <div>
+                            <p class="font-bold">الرياضة 2 (مساءً)</p>
+                            <p class="text-xs text-gray-400">45 دقيقة تمارين مقاومة أو يوغا</p>
+                        </div>
+                    </div>
+                    <span class="checkbox-custom" onclick="toggleCheck(this)"></span>
+                </div>
+                <div class="glass-card p-4 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="bg-blue-100 p-2 rounded-lg">💧</div>
+                        <div>
+                            <p class="font-bold">شرب الماء</p>
+                            <p class="text-xs text-gray-400">تتبع 4 لتر يومياً</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-1">
+                        <div class="w-4 h-4 rounded-full border border-sky-300"></div>
+                        <div class="w-4 h-4 rounded-full border border-sky-300"></div>
+                        <div class="w-4 h-4 rounded-full border border-sky-300"></div>
+                        <div class="w-4 h-4 rounded-full border border-sky-300"></div>
+                    </div>
+                </div>
+                <div class="glass-card p-4 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="bg-blue-100 p-2 rounded-lg">📖</div>
+                        <div>
+                            <p class="font-bold">القراءة</p>
+                            <p class="text-xs text-gray-400">10 صفحات غير خيالية</p>
+                        </div>
+                    </div>
+                    <span class="checkbox-custom" onclick="toggleCheck(this)"></span>
+                </div>
+                <div class="glass-card p-4 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="bg-blue-100 p-2 rounded-lg">🥗</div>
+                        <div>
+                            <p class="font-bold">أكل صحي</p>
+                            <p class="text-xs text-gray-400">بدون سكريات أو وجبات سريعة</p>
+                        </div>
+                    </div>
+                    <span class="checkbox-custom" onclick="toggleCheck(this)"></span>
+                </div>
+                <div class="glass-card p-4 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="bg-blue-100 p-2 rounded-lg">📸</div>
+                        <div>
+                            <p class="font-bold">صورة التقدم</p>
+                            <p class="text-xs text-gray-400">توثيق التغيير الجسدي</p>
+                        </div>
+                    </div>
+                    <span class="checkbox-custom" onclick="toggleCheck(this)"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 3: Skincare & Beauty -->
+        <div id="page-skincare" class="page-content hidden space-y-6">
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Morning Routine -->
+                <div class="glass-card p-6 border-r-4 border-yellow-200">
+                    <h3 class="text-lg font-bold text-sky-700 mb-4 flex items-center gap-2">
+                        ☀️ روتين الصباح (AM)
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-3 border-b border-sky-50 pb-2">
+                            <span class="checkbox-custom" onclick="toggleCheck(this)"></span>
+                            <span class="text-gray-600">غسول لطيف</span>
+                        </div>
+                        <div class="flex items-center gap-3 border-b border-sky-50 pb-2">
+                            <span class="checkbox-custom" onclick="toggleCheck(this)"></span>
+                            <span class="text-gray-600">سيروم فيتامين C</span>
+                        </div>
+                        <div class="flex items-center gap-3 border-b border-sky-50 pb-2">
+                            <span class="checkbox-custom" onclick="toggleCheck(this)"></span>
+                            <span class="text-gray-600">مرطب خفيف</span>
+                        </div>
+                        <div class="flex items-center gap-3 border-b border-sky-50 pb-2">
+                            <span class="checkbox-custom" onclick="toggleCheck(this)"></span>
+                            <span class="text-gray-600 font-medium">واقي الشمس 🧴</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Night Routine -->
+                <div class="glass-card p-6 border-r-4 border-indigo-200">
+                    <h3 class="text-lg font-bold text-indigo-700 mb-4 flex items-center gap-2">
+                        🌙 روتين المساء (PM)
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-3 border-b border-sky-50 pb-2">
+                            <span class="checkbox-custom" onclick="toggleCheck(this)"></span>
+                            <span class="text-gray-600">تنظيف مزدوج (Double Cleanse)</span>
+                        </div>
+                        <div class="flex items-center gap-3 border-b border-sky-50 pb-2">
+                            <span class="checkbox-custom" onclick="toggleCheck(this)"></span>
+                            <span class="text-gray-600">تونر منقي</span>
+                        </div>
+                        <div class="flex items-center gap-3 border-b border-sky-50 pb-2">
+                            <span class="checkbox-custom" onclick="toggleCheck(this)"></span>
+                            <span class="text-gray-600">سيروم ريتينول / ترطيب</span>
+                        </div>
+                        <div class="flex items-center gap-3 border-b border-sky-50 pb-2">
+                            <span class="checkbox-custom" onclick="toggleCheck(this)"></span>
+                            <span class="text-gray-600">كريم ليلي مغذي</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Beauty Habit Tracker -->
+            <div class="glass-card p-6">
+                <h3 class="text-lg font-bold text-sky-600 mb-4">متعقب العادات الجمالية</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-center">
+                        <thead>
+                            <tr class="text-sky-500 text-sm">
+                                <th class="p-2 text-right">العادة</th>
+                                <th class="p-2">س</th>
+                                <th class="p-2">ن</th>
+                                <th class="p-2">ث</th>
+                                <th class="p-2">أ</th>
+                                <th class="p-2">خ</th>
+                                <th class="p-2">ج</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-600">
+                            <tr class="border-b border-sky-50">
+                                <td class="p-2 text-right">ماسك الشعر</td>
+                                <td><div class="w-4 h-4 mx-auto rounded border border-sky-200"></div></td>
+                                <td><div class="w-4 h-4 mx-auto rounded border border-sky-200"></div></td>
+                                <td><div class="w-4 h-4 mx-auto rounded border border-sky-200"></div></td>
+                                <td><div class="w-4 h-4 mx-auto rounded border border-sky-200"></div></td>
+                                <td><div class="w-4 h-4 mx-auto rounded border border-sky-200"></div></td>
+                                <td><div class="w-4 h-4 mx-auto rounded border border-sky-200"></div></td>
+                            </tr>
+                            <tr>
+                                <td class="p-2 text-right">تقشير البشرة</td>
+                                <td><div class="w-4 h-4 mx-auto rounded border border-sky-200"></div></td>
+                                <td><div class="w-4 h-4 mx-auto rounded border border-sky-200"></div></td>
+                                <td><div class="w-4 h-4 mx-auto rounded border border-sky-200"></div></td>
+                                <td><div class="w-4 h-4 mx-auto rounded border border-sky-200"></div></td>
+                                <td><div class="w-4 h-4 mx-auto rounded border border-sky-200"></div></td>
+                                <td><div class="w-4 h-4 mx-auto rounded border border-sky-200"></div></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 4: Daily Planning -->
+        <div id="page-daily" class="page-content hidden space-y-6">
+            <div class="flex flex-col md:flex-row gap-6">
+                <!-- To-Do List -->
+                <div class="flex-1 glass-card p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xl font-bold text-sky-700">قائمة المهام اليومية</h3>
+                        <span class="text-sm text-sky-400">15 أبريل، 2024</span>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-3 bg-sky-50 p-3 rounded-xl">
+                            <span class="checkbox-custom" onclick="toggleCheck(this)"></span>
+                            <input type="text" class="bg-transparent outline-none w-full text-gray-700" placeholder="أهم مهمة لليوم...">
+                        </div>
+                        <div class="flex items-center gap-3 p-3 border-b border-sky-100">
+                            <span class="checkbox-custom" onclick="toggleCheck(this)"></span>
+                            <input type="text" class="bg-transparent outline-none w-full text-gray-600" placeholder="مهمة ثانوية...">
+                        </div>
+                        <div class="flex items-center gap-3 p-3 border-b border-sky-100">
+                            <span class="checkbox-custom" onclick="toggleCheck(this)"></span>
+                            <input type="text" class="bg-transparent outline-none w-full text-gray-600" placeholder="مهمة ثانوية...">
+                        </div>
+                        <div class="flex items-center gap-3 p-3 border-b border-sky-100">
+                            <span class="checkbox-custom" onclick="toggleCheck(this)"></span>
+                            <input type="text" class="bg-transparent outline-none w-full text-gray-600" placeholder="مهمة ثانوية...">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notes & Reminders -->
+                <div class="md:w-1/3 space-y-6">
+                    <div class="glass-card p-6 sky-gradient">
+                        <h3 class="font-bold mb-2">تذكير هام 🔔</h3>
+                        <p class="text-sm">لا تنسي شرب كوب ماء كل ساعة!</p>
+                    </div>
+                    <div class="glass-card p-6 h-64 flex flex-col">
+                        <h3 class="font-bold mb-2 text-sky-600">ملاحظات</h3>
+                        <textarea class="flex-1 bg-transparent resize-none outline-none text-sm text-gray-600" placeholder="اكتبي ما يخطر ببالك هنا..."></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer Quote -->
+    <footer class="fixed bottom-0 w-full p-4 text-center glass-card mt-10">
+        <p class="text-sky-500 text-xs font-medium">مُصمم بكل حب لمرافقتكِ في رحلة التغيير</p>
+    </footer>
+
+    <script>
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page-content').forEach(page => {
+                page.classList.add('hidden');
+            });
+            // Show selected page
+            document.getElementById('page-' + pageId).classList.remove('hidden');
+
+            // Update navigation buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById('nav-' + pageId).classList.add('active');
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleCheck(el) {
+            el.classList.toggle('checked');
+            // Add a slight haptic-like visual effect
+            el.style.transform = "scale(1.2)";
+            setTimeout(() => {
+                el.style.transform = "scale(1)";
+            }, 100);
+        }
+
+        // Initialize dynamic quote
+        const quotes = [
+            "أنتِ اليوم أجمل مما كنتِ بالأمس.",
+            "الخطوات الصغيرة تؤدي إلى نتائج عظيمة.",
+            "استمتعي بالرحلة ولا تستعجلي الوصول.",
+            "الانضباط هو أعلى درجات حب الذات."
+        ];
+        document.getElementById('motivational-quote').innerText = quotes[Math.floor(Math.random() * quotes.length)];
+    </script>
+    <script>
+        if ('serviceWorker' in navigator) {
+          window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./sw.js')
+              .then(reg => console.log('Service Worker Registered!'))
+              .catch(err => console.log('Error: ', err));
+          });
+        }
+      </script>
+</body>
+</html>
