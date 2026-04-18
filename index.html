@@ -77,6 +77,23 @@
             right: 2px;
             font-size: 14px;
         }
+
+        /* Checkbox Custom */
+        .checkbox-custom {
+            width: 22px; height: 22px; border-radius: 6px; border: 2px solid #7dd3fc;
+            cursor: pointer; display: inline-flex; align-items: center; justify-content: center;
+            transition: all 0.2s;
+        }
+        .checkbox-custom.checked { background-color: #7dd3fc; }
+        .checkbox-custom.checked::after { content: '✓'; color: white; font-size: 14px; }
+
+        /* دوائر الماء والجدول */
+        .water-dot { width: 18px; height: 18px; border-radius: 50%; border: 2px solid #7dd3fc; cursor: pointer; transition: 0.3s; }
+        .water-dot.filled { background-color: #0ea5e9; border-color: #0ea5e9; }
+        
+        .habit-cell { width: 20px; height: 20px; border: 1px solid #bae6fd; border-radius: 4px; cursor: pointer; margin: auto; }
+        .habit-cell.done { background-color: #7dd3fc; position: relative; }
+        .habit-cell.done::after { content: '•'; color: white; position: absolute; top: -4px; left: 4px; }
     </style>
 </head>
 <body class="min-h-screen pb-20">
@@ -95,11 +112,7 @@
 
         <main id="app-container" class="max-w-4xl mx-auto px-4">
 
-    <!-- Header -->
-    <header class="p-6 text-center">
-        <h1 class="text-3xl font-bold text-sky-600 mb-2">مساحتي الخاصة</h1>
-        <p class="text-sky-400 italic">"كل يوم هو بداية لقصة جمال جديدة"</p>
-    </header>
+   
 
     <!-- Content Container -->
     <main id="app-container" class="max-w-4xl mx-auto px-4">
@@ -152,8 +165,8 @@
                 <p class="text-sky-400 text-sm mb-4">قوة، انضباط، وتغيير جذري</p>
                 <div class="flex justify-center items-center gap-4 mb-4">
                     <div class="w-24 h-24 rounded-full border-4 border-sky-300 flex items-center justify-center">
-                        <span class="text-2xl font-bold text-sky-600">يوم 1</span>
-                    </div>
+<!-- استبدلي الكود القديم بهذا السطر فقط -->
+                      <span id="challenge-day-display" class="text-2xl font-bold text-sky-600">يوم 1</span>           </div>        
                 </div>
             </div>
 
@@ -297,23 +310,26 @@
                             </tr>
                         </thead>
                         <tbody class="text-gray-600">
-                            <tr class="border-b border-sky-50">
-                                <td class="p-2 text-right">ماسك الشعر</td>
-                                <td><div class="w-4 h-4 mx-auto rounded border border-sky-200"></div></td>
-                                <td><div class="w-4 h-4 mx-auto rounded border border-sky-200"></div></td>
-                                <td><div class="w-4 h-4 mx-auto rounded border border-sky-200"></div></td>
-                                <td><div class="w-4 h-4 mx-auto rounded border border-sky-200"></div></td>
-                                <td><div class="w-4 h-4 mx-auto rounded border border-sky-200"></div></td>
-                                <td><div class="w-4 h-4 mx-auto rounded border border-sky-200"></div></td>
-                            </tr>
+                             <tbody>
+                                <tr class="border-b border-sky-50">
+                                    <td class="p-2 text-right">ماسك الشعر</td>
+                                    <td><div class="habit-cell" onclick="this.classList.toggle('done')"></div></td>
+                                    <td><div class="habit-cell" onclick="this.classList.toggle('done')"></div></td>
+                                    <td><div class="habit-cell" onclick="this.classList.toggle('done')"></div></td>
+                                    <td><div class="habit-cell" onclick="this.classList.toggle('done')"></div></td>
+                                    <td><div class="habit-cell" onclick="this.classList.toggle('done')"></div></td>
+                                    <td><div class="habit-cell" onclick="this.classList.toggle('done')"></div></td>
+                                </tr>
+                            </tbody>
+                            <tbody>
                             <tr>
                                 <td class="p-2 text-right">تقشير البشرة</td>
-                                <td><div class="w-4 h-4 mx-auto rounded border border-sky-200"></div></td>
-                                <td><div class="w-4 h-4 mx-auto rounded border border-sky-200"></div></td>
-                                <td><div class="w-4 h-4 mx-auto rounded border border-sky-200"></div></td>
-                                <td><div class="w-4 h-4 mx-auto rounded border border-sky-200"></div></td>
-                                <td><div class="w-4 h-4 mx-auto rounded border border-sky-200"></div></td>
-                                <td><div class="w-4 h-4 mx-auto rounded border border-sky-200"></div></td>
+                                 <td><div class="habit-cell" onclick="this.classList.toggle('done')"></div></td>
+                                <td><div class="habit-cell" onclick="this.classList.toggle('done')"></div></td>
+                                <td><div class="habit-cell" onclick="this.classList.toggle('done')"></div></td>
+                                <td><div class="habit-cell" onclick="this.classList.toggle('done')"></div></td>
+                                <td><div class="habit-cell" onclick="this.classList.toggle('done')"></div></td>
+                                <td><div class="habit-cell" onclick="this.classList.toggle('done')"></div></td>
                             </tr>
                         </tbody>
                     </table>
@@ -373,6 +389,52 @@
 
     <script>
 
+             // 1. التاريخ الديناميكي
+             function updateDates() {
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const today = new Date().toLocaleDateString('ar-EG', options);
+            document.getElementById('current-date-header').innerText = today;
+            if(document.getElementById('current-date-planner')) {
+                document.getElementById('current-date-planner').innerText = today;
+            }
+        }
+        // 1. دالة لطلب الإذن من المستخدم عند فتح التطبيق
+function requestNotificationPermission() {
+    if ("Notification" in window) {
+        Notification.requestPermission().then(permission => {
+            if (permission === "granted") {
+                console.log("تم تفعيل الإشعارات بنجاح!");
+            }
+        });
+    }
+}
+
+// 2. دالة لإرسال الإشعار الفعلي
+function sendWaterNotification() {
+    if (Notification.permission === "granted") {
+        new Notification("تذكير GlowUp75 💧", {
+            body: "حان وقت شرب الماء للحفاظ على جمالكِ ونشاطكِ!",
+            icon: "icon.png" // تأكدي من وجود مسار الصورة الصحيح
+        });
+    }
+}
+
+// 3. ضبط المؤقت (مثلاً كل ساعة)
+// ملاحظة: 3600000 مللي ثانية تساوي ساعة واحدة
+const ONE_HOUR = 3600000; 
+
+function startWaterReminder() {
+    setInterval(() => {
+        sendWaterNotification();
+    }, ONE_HOUR);
+}
+
+// تشغيل طلب الإذن عند التحميل
+window.addEventListener('load', () => {
+    requestNotificationPermission();
+    startWaterReminder();
+});
+
            // 1. التحكم في الشاشة الترحيبية
            window.addEventListener('load', () => {
             setTimeout(() => {
@@ -382,7 +444,7 @@
             }, 2500);
             loadSavedState(); // تحميل المهام المحفوظة
         });
-        
+
         function showPage(pageId) {
             // Hide all pages
             document.querySelectorAll('.page-content').forEach(page => {
@@ -427,6 +489,115 @@
               .catch(err => console.log('Error: ', err));
           });
         }
+
+        /**
+ * دالة لتتبع عدد أيام التحدي بشكل تلقائي
+ * النهج: نقارن تاريخ آخر دخول بالتاريخ الحالي
+ */
+function updateChallengeDay() {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // تصفير الوقت للمقارنة بالتواريخ فقط
+
+    // جلب البيانات المخزنة من ذاكرة المتصفح
+    let currentDay = parseInt(localStorage.getItem('savedChallengeDay')) || 1;
+    let lastVisitDate = localStorage.getItem('lastVisitDate');
+
+    if (lastVisitDate) {
+        const lastDate = new Date(lastVisitDate);
+        lastDate.setHours(0, 0, 0, 0);
+
+        // حساب الفرق بالملي ثانية وتحويله لأيام
+        const diffTime = today.getTime() - lastDate.getTime();
+        const diffDays = diffTime / (1000 * 60 * 60 * 24);
+
+        if (diffDays === 1) {
+            // إذا كان الفرق يوماً واحداً، نزيد العداد
+            currentDay++;
+        } else if (diffDays > 1) {
+            // إذا كان الغياب أكثر من يوم، نعود لليوم الأول
+            currentDay = 1;
+            alert("لقد فاتكِ يوم! تم إعادة التحدي لليوم الأول 🔄");
+        }
+    }
+
+    // حفظ البيانات الجديدة
+    localStorage.setItem('savedChallengeDay', currentDay);
+    localStorage.setItem('lastVisitDate', today.toISOString());
+
+    // تحديث النص في الواجهة
+    document.getElementById('challenge-day-display').innerText = "يوم " + currentDay;
+}
+
+// تشغيل الدالة فور تحميل الصفحة
+window.addEventListener('load', updateChallengeDay);
+
+/**
+ * نظام الحفظ التلقائي الشامل
+ * يقوم بحفظ أي نص أو اختيار يتم داخل التطبيق
+ */
+
+// 1. دالة لحفظ البيانات
+function autoSave() {
+    // حفظ جميع خانات النصوص (Input & Textarea)
+    document.querySelectorAll('input, textarea').forEach(el => {
+        if (el.id) { // الحفظ يتم فقط للعناصر التي تملك ID
+            localStorage.setItem('autosave_' + el.id, el.value);
+        }
+    });
+
+    // حفظ جميع مربعات الاختيار المخصصة (Checkboxes)
+    document.querySelectorAll('.checkbox-custom').forEach((el, index) => {
+        // نستخدم index كمعرف إذا لم يوجد ID
+        const key = el.id || 'checkbox_' + index;
+        const isChecked = el.classList.contains('checked');
+        localStorage.setItem('autosave_' + key, isChecked);
+    });
+}
+
+// 2. دالة استرجاع البيانات عند فتح التطبيق
+function loadSavedData() {
+    // استرجاع النصوص
+    document.querySelectorAll('input, textarea').forEach(el => {
+        if (el.id) {
+            const savedValue = localStorage.getItem('autosave_' + el.id);
+            if (savedValue !== null) {
+                el.value = savedValue;
+            }
+        }
+    });
+
+    // استرجاع حالة المربعات (Checkboxes)
+    document.querySelectorAll('.checkbox-custom').forEach((el, index) => {
+        const key = el.id || 'checkbox_' + index;
+        const savedState = localStorage.getItem('autosave_' + key);
+        if (savedState === 'true') {
+            el.classList.add('checked');
+        }
+    });
+}
+
+// 3. تفعيل الحفظ التلقائي عند الكتابة أو النقر
+window.addEventListener('load', () => {
+    loadSavedData(); // تحميل البيانات أولاً
+
+    // مراقبة الكتابة في كل الحقول
+    document.addEventListener('input', (event) => {
+        if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
+            autoSave();
+        }
+    });
+
+    // تعديل دالة toggleCheck القديمة لتشمل الحفظ
+    const originalToggleCheck = window.toggleCheck;
+    window.toggleCheck = function(el) {
+        if (typeof originalToggleCheck === 'function') {
+            originalToggleCheck(el); // تنفيذ الوظيفة الأصلية (تغيير اللون)
+        } else {
+            el.classList.toggle('checked'); // إذا لم تكن موجودة، نقوم بالتبديل
+        }
+        autoSave(); // حفظ الحالة فوراً
+    };
+});
       </script>
 </body>
 </html>
