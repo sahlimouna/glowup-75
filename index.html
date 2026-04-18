@@ -7,13 +7,15 @@
     <link rel="sw" href="sw.js">
      <meta name="theme-color" content="#7dd3fc">
      <!-- وسوم خاصة بـ Apple لجعل الموقع يظهر كتطبيق -->
+      
+
     <meta name="apple-mobile-web-app-capable" content="yes">
-     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-     <meta name="apple-mobile-web-app-title" content="GlowUp75">
-     <link rel="apple-touch-icon" href="icon.png">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="GlowUp75">
+    <link rel="apple-touch-icon" href="icon.png">
 
 <!-- أيقونة التطبيق لـ iPhone (يجب أن تكون بحجم 180x180) -->
-<link rel="apple-touch-icon" href="icon.png">
+
     <title>glow up 75</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -24,56 +26,36 @@
             color: #334e68;
         }
         #splash-screen {
-            position: fixed;
+            position: fixed; 
             top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #f0faff; /* نفس لون الخلفية */
-            display: flex;
+             left: 0; 
+             width: 100%; 
+             height: 100%;
+            background-color: #f0faff; 
+            display: flex; 
             flex-direction: column;
-            justify-content: center;
+            justify-content: center; 
             align-items: center;
-            z-index: 9999;
-            transition: opacity 0.6s ease-out;
+             z-index: 9999;
+            transition: opacity 0.8s ease;
         }
         .splash-logo {
-            width: 180px;
-            height: 180px;
-            border-radius: 40px;
-            box-shadow: 0 10px 25px rgba(125, 211, 252, 0.3);
+            width: 150px; 
+            height: 150px;
+             border-radius: 35px;
             animation: pulse-animation 2s infinite ease-in-out;
         }
         @keyframes pulse-animation {
-            0% { transform: scale(0.95); opacity: 0.8; }
+            0%, 100% { transform: scale(0.95); opacity: 0.8; }
             50% { transform: scale(1.05); opacity: 1; }
-            100% { transform: scale(0.95); opacity: 0.8; }
         }
 
-        .loader-dots { display: flex; gap: 8px; margin-top: 20px; }
-        .dot { width: 10px; height: 10px; background: #7dd3fc; border-radius: 50%; animation: dot-blink 1.4s infinite; }
-        .dot:nth-child(2) { animation-delay: 0.2s; }
-        .dot:nth-child(3) { animation-delay: 0.4s; }
-
-        @keyframes dot-blink { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
-        #main-content { opacity: 0; transition: opacity 0.5s ease-in; }
-        .glass-card {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(186, 230, 253, 0.5);
-            border-radius: 20px;
-        }
-        .sky-gradient {
-            background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
-        }
-        .nav-btn {
-            transition: all 0.3s ease;
-        }
-        .nav-btn.active {
-            background-color: #7dd3fc;
-            color: white;
-            transform: scale(1.05);
-        }
+        #main-content { opacity: 0; transition: opacity 0.6s ease-in; }
+        .glass-card { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); border: 1px solid rgba(186, 230, 253, 0.5); border-radius: 20px; }
+        .sky-gradient { background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%); }
+        .nav-btn { transition: all 0.3s ease; }
+        .nav-btn.active { background-color: #7dd3fc; color: white; transform: scale(1.05); shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
+     
         .checkbox-custom {
             width: 20px;
             height: 20px;
@@ -100,13 +82,10 @@
 <body class="min-h-screen pb-20">
     <!-- عنصر الشاشة الترحيبية -->
     <div id="splash-screen">
-        <img src="icon.png" alt="Glow Up 75" class="splash-logo">
-        <div class="loader-dots">
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-        </div>
+        <img src="icon.png" alt="Logo" class="splash-logo">
+        <p class="mt-4 text-sky-600 font-bold animate-pulse">جاري التحميل...</p>
     </div>
+   
     <!-- تغليف المحتوى الأصلي للتحكم في ظهوره -->
     <div id="main-content">
         <header class="p-6 text-center">
@@ -393,6 +372,17 @@
     </footer>
 
     <script>
+
+           // 1. التحكم في الشاشة الترحيبية
+           window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('splash-screen').style.opacity = '0';
+                document.getElementById('main-content').style.opacity = '1';
+                setTimeout(() => document.getElementById('splash-screen').style.display = 'none', 800);
+            }, 2500);
+            loadSavedState(); // تحميل المهام المحفوظة
+        });
+        
         function showPage(pageId) {
             // Hide all pages
             document.querySelectorAll('.page-content').forEach(page => {
