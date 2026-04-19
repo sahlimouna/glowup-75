@@ -402,11 +402,12 @@
              function updateDates() {
             const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
             const today = new Date().toLocaleDateString('ar-EG', options);
-            document.getElementById('current-date-header').innerText = today;
-            if(document.getElementById('current-date-planner')) {
-                document.getElementById('current-date-planner').innerText = today;
-            }
-        }
+            const header = document.getElementById('current-date-header');
+    const planner = document.getElementById('current-date-planner');
+
+    if (header) header.innerText = today;
+    if (planner) planner.innerText = today;
+}
         // 1. دالة لطلب الإذن من المستخدم عند فتح التطبيق
 function requestNotificationPermission() {
     if ("Notification" in window) {
@@ -444,15 +445,22 @@ window.addEventListener('load', () => {
     startWaterReminder();
 });
 
-           // 1. التحكم في الشاشة الترحيبية
-           window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('splash-screen').style.opacity = '0';
-                document.getElementById('main-content').style.opacity = '1';
-                setTimeout(() => document.getElementById('splash-screen').style.display = 'none', 800);
-            }, 2500);
-            loadSavedState(); // تحميل المهام المحفوظة
-        });
+       // 1. إدارة الشاشة الترحيبية والتحميل الأولي
+    window.addEventListener('load', () => {
+        // إخفاء شاشة التحميل
+        setTimeout(() => {
+            const splash = document.getElementById('splash-screen');
+            const main = document.getElementById('main-content');
+            if(splash) splash.style.opacity = '0';
+            if(main) main.style.opacity = '1';
+            setTimeout(() => { if(splash) splash.style.display = 'none'; }, 800);
+        }, 2500);
+
+        // تحميل كافة البيانات المحفوظة
+        loadAllData();
+        updateChallengeDay();
+        startWaterReminder();
+    });
 
         function showPage(pageId) {
             // Hide all pages
@@ -690,6 +698,116 @@ function loadGoalsFromStorage() {
 window.addEventListener('load', () => {
     loadGoalsFromStorage();
 });
+
+// 2. نظام الحفظ التلقائي الشامل
+function autoSave() {
+        // حفظ النصوص (الامتنان، الملاحظات، المدخلات)
+        document.querySelectorAll('input, textarea').forEach(el => {
+            if (el.id) localStorage.setItem('glow_save_' + el.id, el.value);
+        });
+
+        // حفظ مربعات الاختيار (Checkboxes)
+        document.querySelectorAll('.checkbox-custom').forEach((el, index) => {
+            const key = el.id || 'chk_' + index;
+            localStorage.setItem('glow_save_' + key, el.classList.contains('checked'));
+        });
+
+        // حفظ خلايا متعقب العادات
+        document.querySelectorAll('.habit-cell').forEach((el, index) => {
+            const key = el.id || 'habit_' + index;
+            localStorage.setItem('glow_save_' + key, el.classList.contains('done'));
+        });
+    }
+
+    // 3. استرجاع البيانات
+    function loadAllData() {
+        // استرجاع النصوص
+        document.querySelectorAll('input, textarea').forEach(el => {
+            if (el.id) {
+                const val = localStorage.getItem('glow_save_' + el.id);
+                if (val !== null) el.value = val;
+            }
+        });
+
+        // استرجاع مربعات الاختيار
+        document.querySelectorAll('.checkbox-custom').forEach((el, index) => {
+            const key = el.id || 'chk_' + index;
+            if (localStorage.getItem('glow_save_' + key) === 'true') el.classList.add('checked');
+        });
+
+        // استرجاع العادات
+        document.querySelectorAll('.habit-cell').forEach((el, index) => {
+            const key = el.id || 'habit_' + index;
+            if (localStorage.getItem('glow_save_' + key) === 'true') el.classList.add('done');
+        });
+
+        // تحميل الأهداف المضافة يدوياً
+        loadGoalsFromStorage();
+    }
+
+    // 4. وظائف التفاعل (Events)
+    function toggleCheck(el) {
+        el.classList.toggle('checked');
+        el.style.transform = "scale(1.2)";
+        setTimeout(() => { el.style.transform = "scale(1)"; }, 100);
+        autoSave();
+    }
+
+    function toggleHabit(el) {
+        el.classList.toggle('done');
+        autoSave();
+    }
+
+    // مراقبة أي كتابة للحفظ الفوري
+    document.addEventListener('input', (e) => {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') autoSave();
+    });
+
+    // 5. إدارة أهداف الأسبوع (إضافة وحذف)
+    function addNewGoal() {
+        const input = document.getElementById('new-goal-input');
+        const text = input.value.trim();
+        if (!text) return alert("اكتبي هدفاً أولاً!");
+
+        const id = "custom_goal_" + Date.now();
+        createGoalElement(id, text, false);
+        input.value = "";
+        saveGoalsToStorage();
+    }
+
+    function createGoalElement(id, text, isChecked) {
+        const ul = document.getElementById('weekly-goals');
+        const li = document.createElement('li');
+        li.className = "flex items-center gap-2 border-b border-sky-100 pb-2";
+        li.innerHTML = `
+            <span id="${id}" class="checkbox-custom ${isChecked ? 'checked' : ''}" onclick="toggleCheck(this)"></span>
+            <span class="text-gray-600">${text}</span>
+            <button onclick="this.parentElement.remove(); saveGoalsToStorage();" class="text-xs text-red-300 mr-auto">حذف</button>
+        `;
+        ul.appendChild(li);
+    }
+
+    function saveGoalsToStorage() {
+        const goals = [];
+        document.querySelectorAll('#weekly-goals li').forEach(li => {
+            const span = li.querySelector('.checkbox-custom');
+            goals.push({ id: span.id, text: li.querySelector('.text-gray-600').innerText, checked: span.classList.contains('checked') });
+        });
+        localStorage.setItem('glow_custom_goals', JSON.stringify(goals));
+        autoSave();
+    }
+
+    function loadGoalsFromStorage() {
+        const saved = localStorage.getItem('glow_custom_goals');
+        if (saved) {
+            const goals = JSON.parse(saved);
+            const ul = document.getElementById('weekly-goals');
+            // لا نمسح الأهداف الأساسية إذا كانت موجودة في HTML، أو يمكن جعلها كلها ديناميكية
+            goals.forEach(g => {
+                if(!document.getElementById(g.id)) createGoalElement(g.id, g.text, g.checked);
+            });
+        }
+    }
       </script>
 </body>
 </html>
