@@ -139,14 +139,23 @@
                     </h3>
                     <ul class="space-y-3" id="weekly-goals">
                         <li class="flex items-center gap-2 border-b border-sky-100 pb-2">
-                            <span class="checkbox-custom" onclick="toggleCheck(this)"></span>
+                            <span id="goal_diet" class="checkbox-custom" onclick="toggleCheck(this)"></span>
                             <span class="text-gray-600">الالتزام بنظام غذائي متوازن</span>
                         </li>
                         <li class="flex items-center gap-2 border-b border-sky-100 pb-2">
-                            <span class="checkbox-custom" onclick="toggleCheck(this)"></span>
+                            <span id="goal_reading" class="checkbox-custom" onclick="toggleCheck(this)"></span>
                             <span class="text-gray-600">قراءة 50 صفحة من كتاب تطوير الذات</span>
                         </li>
                     </ul>
+                    <div class="mb-4 flex gap-2">
+                        <input type="text" id="new-goal-input" 
+                               class="flex-1 p-2 border-2 border-sky-100 rounded-xl outline-none focus:border-sky-300 text-sm" 
+                               placeholder="اكتبي هدفاً جديداً...">
+                        <button onclick="addNewGoal()" 
+                                class="bg-sky-500 text-white px-4 py-2 rounded-xl hover:bg-sky-600 transition text-sm">
+                            إضافة
+                        </button>
+                    </div>
                 </div>
 
                 <div class="glass-card p-6">
@@ -175,7 +184,7 @@
                     <div class="flex items-center gap-3">
                         <div class="bg-blue-100 p-2 rounded-lg">🏋️‍♀️</div>
                         <div>
-                            <p class="font-bold">الرياضة 1 (صباحاً)</p>
+                            <p id="goal_sport1" class="font-bold">الرياضة 1 (صباحاً)</p>
                             <p class="text-xs text-gray-400">45 دقيقة - في الخارج إن أمكن</p>
                         </div>
                     </div>
@@ -185,7 +194,7 @@
                     <div class="flex items-center gap-3">
                         <div class="bg-blue-100 p-2 rounded-lg">🌙</div>
                         <div>
-                            <p class="font-bold">الرياضة 2 (مساءً)</p>
+                            <p id="goal_sport2"  class="font-bold">الرياضة 2 (مساءً)</p>
                             <p class="text-xs text-gray-400">45 دقيقة تمارين مقاومة أو يوغا</p>
                         </div>
                     </div>
@@ -193,24 +202,24 @@
                 </div>
                 <div class="glass-card p-4 flex items-center justify-between">
                     <div class="flex items-center gap-3">
-                        <div class="bg-blue-100 p-2 rounded-lg">💧</div>
+                        <div  class="bg-blue-100 p-2 rounded-lg">💧</div>
                         <div>
                             <p class="font-bold">شرب الماء</p>
                             <p class="text-xs text-gray-400">تتبع 4 لتر يومياً</p>
                         </div>
                     </div>
                     <div class="flex gap-1">
-                        <div class="w-4 h-4 rounded-full border border-sky-300"></div>
-                        <div class="w-4 h-4 rounded-full border border-sky-300"></div>
-                        <div class="w-4 h-4 rounded-full border border-sky-300"></div>
-                        <div class="w-4 h-4 rounded-full border border-sky-300"></div>
+                        <div id="water1" class="w-4 h-4 rounded-full border border-sky-300"></div>
+                        <div id="water2" class="w-4 h-4 rounded-full border border-sky-300"></div>
+                        <div id="water3" class="w-4 h-4 rounded-full border border-sky-300"></div>
+                        <div id="water4" class="w-4 h-4 rounded-full border border-sky-300"></div>
                     </div>
                 </div>
                 <div class="glass-card p-4 flex items-center justify-between">
                     <div class="flex items-center gap-3">
                         <div class="bg-blue-100 p-2 rounded-lg">📖</div>
                         <div>
-                            <p class="font-bold">القراءة</p>
+                            <p id="read" class="font-bold">القراءة</p>
                             <p class="text-xs text-gray-400">10 صفحات غير خيالية</p>
                         </div>
                     </div>
@@ -220,7 +229,7 @@
                     <div class="flex items-center gap-3">
                         <div class="bg-blue-100 p-2 rounded-lg">🥗</div>
                         <div>
-                            <p class="font-bold">أكل صحي</p>
+                            <p id="eating" class="font-bold">أكل صحي</p>
                             <p class="text-xs text-gray-400">بدون سكريات أو وجبات سريعة</p>
                         </div>
                     </div>
@@ -249,19 +258,19 @@
                     </h3>
                     <div class="space-y-4">
                         <div class="flex items-center gap-3 border-b border-sky-50 pb-2">
-                            <span class="checkbox-custom" onclick="toggleCheck(this)"></span>
+                            <span id="ghasol" class="checkbox-custom" onclick="toggleCheck(this)"></span>
                             <span class="text-gray-600">غسول لطيف</span>
                         </div>
                         <div class="flex items-center gap-3 border-b border-sky-50 pb-2">
-                            <span class="checkbox-custom" onclick="toggleCheck(this)"></span>
+                            <span id="vitc" class="checkbox-custom" onclick="toggleCheck(this)"></span>
                             <span class="text-gray-600">سيروم فيتامين C</span>
                         </div>
                         <div class="flex items-center gap-3 border-b border-sky-50 pb-2">
-                            <span class="checkbox-custom" onclick="toggleCheck(this)"></span>
+                            <span id="morateb" class="checkbox-custom" onclick="toggleCheck(this)"></span>
                             <span class="text-gray-600">مرطب خفيف</span>
                         </div>
                         <div class="flex items-center gap-3 border-b border-sky-50 pb-2">
-                            <span class="checkbox-custom" onclick="toggleCheck(this)"></span>
+                            <span id="wa9i" class="checkbox-custom" onclick="toggleCheck(this)"></span>
                             <span class="text-gray-600 font-medium">واقي الشمس 🧴</span>
                         </div>
                     </div>
@@ -274,19 +283,19 @@
                     </h3>
                     <div class="space-y-4">
                         <div class="flex items-center gap-3 border-b border-sky-50 pb-2">
-                            <span class="checkbox-custom" onclick="toggleCheck(this)"></span>
+                            <span id="doubleclean" class="checkbox-custom" onclick="toggleCheck(this)"></span>
                             <span class="text-gray-600">تنظيف مزدوج (Double Cleanse)</span>
                         </div>
                         <div class="flex items-center gap-3 border-b border-sky-50 pb-2">
-                            <span class="checkbox-custom" onclick="toggleCheck(this)"></span>
+                            <span id="tonner" class="checkbox-custom" onclick="toggleCheck(this)"></span>
                             <span class="text-gray-600">تونر منقي</span>
                         </div>
                         <div class="flex items-center gap-3 border-b border-sky-50 pb-2">
-                            <span class="checkbox-custom" onclick="toggleCheck(this)"></span>
+                            <span id="ciroum" class="checkbox-custom" onclick="toggleCheck(this)"></span>
                             <span class="text-gray-600">سيروم ريتينول / ترطيب</span>
                         </div>
                         <div class="flex items-center gap-3 border-b border-sky-50 pb-2">
-                            <span class="checkbox-custom" onclick="toggleCheck(this)"></span>
+                            <span id="ccnuit" class="checkbox-custom" onclick="toggleCheck(this)"></span>
                             <span class="text-gray-600">كريم ليلي مغذي</span>
                         </div>
                     </div>
@@ -299,37 +308,37 @@
                 <div class="overflow-x-auto">
                     <table class="w-full text-center">
                         <thead>
-                            <tr class="text-sky-500 text-sm">
-                                <th class="p-2 text-right">العادة</th>
-                                <th class="p-2">س</th>
-                                <th class="p-2">ن</th>
-                                <th class="p-2">ث</th>
-                                <th class="p-2">أ</th>
-                                <th class="p-2">خ</th>
-                                <th class="p-2">ج</th>
-                            </tr>
-                        </thead>
+                <tr class="text-sky-500 text-sm">
+                    <th class="p-2 text-right">العادة</th>
+                    <th class="p-2">S</th><th class="p-2">D</th><th class="p-2">L</th>
+                    <th class="p-2">M</th><th class="p-2">ME</th><th class="p-2">J</th><th class="p-2">V</th>
+                </tr>
+            </thead>
                         <tbody class="text-gray-600">
                              <tbody>
                                 <tr class="border-b border-sky-50">
                                     <td class="p-2 text-right">ماسك الشعر</td>
-                                    <td><div class="habit-cell" onclick="this.classList.toggle('done')"></div></td>
-                                    <td><div class="habit-cell" onclick="this.classList.toggle('done')"></div></td>
-                                    <td><div class="habit-cell" onclick="this.classList.toggle('done')"></div></td>
-                                    <td><div class="habit-cell" onclick="this.classList.toggle('done')"></div></td>
-                                    <td><div class="habit-cell" onclick="this.classList.toggle('done')"></div></td>
-                                    <td><div class="habit-cell" onclick="this.classList.toggle('done')"></div></td>
+                                    <td><div id="h_hair_sat" class="habit-cell" onclick="this.classList.toggle('done')"></div></td>
+                                    <td><div id="h_scrub_sun" class="habit-cell" onclick="this.classList.toggle('done')"></div></td>
+                                    <td><div id="h_hair_mon" class="habit-cell" onclick="this.classList.toggle('done')"></div></td>
+                                    <td><div id="h_scrub_tue" class="habit-cell" onclick="this.classList.toggle('done')"></div></td>
+                                    <td><div id="h_scrub_wed" class="habit-cell" onclick="this.classList.toggle('done')"></div></td>
+                                    <td><div id="h_scrub_thu" class="habit-cell" onclick="this.classList.toggle('done')"></div></td>
+                                    <td><div id="h_scrub_sat"  class="habit-cell" onclick="this.classList.toggle('done')"></div></td>
+
                                 </tr>
                             </tbody>
                             <tbody>
                             <tr>
                                 <td class="p-2 text-right">تقشير البشرة</td>
-                                 <td><div class="habit-cell" onclick="this.classList.toggle('done')"></div></td>
-                                <td><div class="habit-cell" onclick="this.classList.toggle('done')"></div></td>
-                                <td><div class="habit-cell" onclick="this.classList.toggle('done')"></div></td>
-                                <td><div class="habit-cell" onclick="this.classList.toggle('done')"></div></td>
-                                <td><div class="habit-cell" onclick="this.classList.toggle('done')"></div></td>
-                                <td><div class="habit-cell" onclick="this.classList.toggle('done')"></div></td>
+                                 <td><div id="h_scrub_sat"  class="habit-cell" onclick="this.classList.toggle('done')"></div></td>
+                                <td><div id="h_scrub_sun" class="habit-cell" onclick="this.classList.toggle('done')"></div></td>
+                                <td><div id="h_hair_mon"  class="habit-cell" onclick="this.classList.toggle('done')"></div></td>
+                                <td><div id="h_scrub_tue" class="habit-cell" onclick="this.classList.toggle('done')"></div></td>
+                                <td><div id="h_scrub_wed" class="habit-cell" onclick="this.classList.toggle('done')"></div></td>
+                                <td><div id="h_scrub_thu" class="habit-cell" onclick="this.classList.toggle('done')"></div></td>
+                                <td><div  id="h_scrub_sat" class="habit-cell" onclick="this.classList.toggle('done')"></div></td>
+
                             </tr>
                         </tbody>
                     </table>
@@ -474,9 +483,15 @@ window.addEventListener('load', () => {
 
         // Initialize dynamic quote
         const quotes = [
-            "أنتِ اليوم أجمل مما كنتِ بالأمس.",
-            "الخطوات الصغيرة تؤدي إلى نتائج عظيمة.",
-            "استمتعي بالرحلة ولا تستعجلي الوصول.",
+            "البداية هي أصعب خطوة، وقد فعلتها بنجاح!","لا تسترخي الآن، النهاية تتطلب جهداً مضاعفاً",
+            "أنتِ اليوم أجمل مما كنتِ بالأمس.","طاقتكِ اليوم هي نتيجة لقراراتكِ بالأمس","التزمي بالصمت واجعلي نتائجك تتحدث",
+            "الخطوات الصغيرة تؤدي إلى نتائج عظيمة.","أنتِ لستِ فقط تغيرين جسدك، أنتِ تغيرين حياتك",
+            "استمتعي بالرحلة ولا تستعجلي الوصول.","عقلك سيستسلم قبل جسدك، لا تستمع إليه","قوتكِ تكمن في قدرتكِ على النهوض كل صباح",
+            "أنتِ استثماركِ الأنجح","الجمال يبدأ بقرار","لا تقارني بدايتك بنهاية الآخرين","تذكري دائماً لماذا بدأتِ",
+            "ركزي على خط النهاية، إنه يلمع","أنتِ قوية، أنتِ ملتزمة، أنتِ مذهلة","التركيز هو سر القوة","أنتِ الآن قدوة لنفسكِ القديمة",
+            "ثباتكِ اليوم هو قوتكِ غداً",
+
+
             "الانضباط هو أعلى درجات حب الذات."
         ];
         document.getElementById('motivational-quote').innerText = quotes[Math.floor(Math.random() * quotes.length)];
@@ -597,6 +612,83 @@ window.addEventListener('load', () => {
         }
         autoSave(); // حفظ الحالة فوراً
     };
+});
+/**
+ * دالة لإضافة هدف جديد وحفظه
+ */
+ function addNewGoal() {
+    const input = document.getElementById('new-goal-input');
+    const goalText = input.value.trim();
+
+    if (goalText === "") {
+        alert("يرجى كتابة شيء أولاً!");
+        return;
+    }
+
+    // إنشاء ID فريد بناءً على الوقت الحالي لضمان عدم التكرار
+    const goalId = "goal_" + Date.now();
+
+    // استدعاء دالة الرسم (ستقوم بإنشاء العنصر في الواجهة)
+    createGoalElement(goalId, goalText, false);
+
+    // مسح الحقل بعد الإضافة
+    input.value = "";
+
+    // حفظ القائمة المحدثة في الذاكرة
+    saveGoalsToStorage();
+}
+
+/**
+ * دالة لرسم عنصر الهدف في الـ HTML
+ */
+function createGoalElement(id, text, isChecked) {
+    const ul = document.getElementById('weekly-goals');
+    
+    const li = document.createElement('li');
+    li.className = "flex items-center gap-2 border-b border-sky-100 pb-2";
+    li.innerHTML = `
+        <span id="${id}" class="checkbox-custom ${isChecked ? 'checked' : ''}" 
+              onclick="toggleCheck(this); saveGoalsToStorage();"></span>
+        <span class="text-gray-600">${text}</span>
+        <button onclick="this.parentElement.remove(); saveGoalsToStorage();" class="text-xs text-red-300 mr-auto">حذف</button>
+    `;
+    
+    ul.appendChild(li);
+}
+
+/**
+ * حفظ قائمة الأهداف كاملة في الذاكرة
+ */
+function saveGoalsToStorage() {
+    const goals = [];
+    document.querySelectorAll('#weekly-goals li').forEach(li => {
+        const span = li.querySelector('.checkbox-custom');
+        const text = li.querySelector('.text-gray-600').innerText;
+        goals.push({
+            id: span.id,
+            text: text,
+            checked: span.classList.contains('checked')
+        });
+    });
+    localStorage.setItem('glow_custom_goals', JSON.stringify(goals));
+}
+
+/**
+ * تحميل الأهداف عند فتح التطبيق
+ */
+function loadGoalsFromStorage() {
+    const saved = localStorage.getItem('glow_custom_goals');
+    if (saved) {
+        const goals = JSON.parse(saved);
+        // مسح القائمة الحالية قبل التحميل لتجنب التكرار
+        document.getElementById('weekly-goals').innerHTML = ""; 
+        goals.forEach(g => createGoalElement(g.id, g.text, g.checked));
+    }
+}
+
+// تحديث وظيفة الويندوز لتحميل الأهداف عند التشغيل
+window.addEventListener('load', () => {
+    loadGoalsFromStorage();
 });
       </script>
 </body>
